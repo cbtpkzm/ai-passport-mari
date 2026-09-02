@@ -122,6 +122,34 @@ static const char *const IDLE_NIGHT_LINES[] = {
     "再陪我待一小会儿吧。\n我还不想跟今天说再见。",
 };
 
+static const char *const LOW_IDLE_DAWN_LINES[] = {
+    "天边开始变亮啦。\n太阳马上就要出来了。",
+    "早上的风凉凉的。\n一下就把人吹醒了。",
+    "街上还没有什么人。\n今天大家起得有点晚。",
+    "空气闻起来湿湿的。\n也许会下雨吧。",
+};
+
+static const char *const LOW_IDLE_DAY_LINES[] = {
+    "太阳暖暖的。\n站一会儿就不想动啦。",
+    "那朵云像不像兔子？\n它还在慢慢变大。",
+    "今天的风跑得好快。\n头发都被吹乱了。",
+    "路上好像很热闹。\n不知道发生了什么。",
+};
+
+static const char *const LOW_IDLE_DUSK_LINES[] = {
+    "天空变成橘色啦。\n像打翻了一杯果汁。",
+    "太阳要回家了吗？\n它明天还会来的。",
+    "影子被拉得好长。\n看起来比我还高。",
+    "鸟都往同一个方向飞。\n它们也要回家吧。",
+};
+
+static const char *const LOW_IDLE_NIGHT_LINES[] = {
+    "今晚的月亮圆圆的。\n像一块咬不到的饼。",
+    "城里终于安静下来啦。\n现在能听见虫叫了。",
+    "那颗星刚才闪了一下。\n它是不是在说话？",
+    "我才没有偷偷发呆。\n我是在认真看夜景。",
+};
+
 static const char *const HAPPY_LINES[] = {
     "你来啦！\n我刚好有好多开心要分给你。",
     "嘿嘿，我今天超有精神！\n感觉能一口气跑到屋顶。",
@@ -210,6 +238,60 @@ static const char *const REST_LINES[] = {
     "不许趁我睡着偷偷跑掉。\n拉钩了就不能反悔。",
     "醒来以后继续比赛。\n这一次我还是会赢。",
     "嘘，先别说话。\n让风再吹一小会儿。",
+};
+
+static const char *const LOW_HAPPY_LINES[] = {
+    "今天状态不错嘛。\n感觉能多跑几圈。",
+    "嘿嘿，我现在很有精神！\n正好活动一下。",
+    "刚刚想到一个好点子。\n不过还要再试试看。",
+    "天气不错。\n待在原地有点浪费啦。",
+    "我今天运气应该很好。\n做什么都不会失败。",
+    "先别眨眼哦。\n我要认真表现一下。",
+};
+
+static const char *const LOW_SAD_LINES[] = {
+    "唔，我今天有点没力气。\n让我先缓一缓。",
+    "刚刚还好好的。\n怎么突然有点累了。",
+    "两条腿都沉沉的。\n今天还是慢一点吧。",
+    "我休息一下就好。\n不用担心我。",
+    "今天好像不太顺利。\n明天再试一次好了。",
+    "鼻子有一点酸酸的。\n不过我才不会哭呢。",
+};
+
+static const char *const LOW_COOL_LINES[] = {
+    "看到没有？刚才很帅吧。\n我可是练过的。",
+    "哼哼，这招当然不会失手。\n难度也不算太高。",
+    "别眨眼。\n下一招还会更快。",
+    "刚才那一下不算运气。\n再来一次也做得到。",
+    "连衣角都没有碰到！\n这次很漂亮吧。",
+    "其实也没有很难。\n只是我学得比较快。",
+};
+
+static const char *const LOW_FEED_LINES[] = {
+    "哇，是给我的吗？\n那我就收下啦。",
+    "好香！\n肚子一下就叫起来了。",
+    "正好有点饿。\n这份看起来还不错。",
+    "我会慢慢吃的。\n才不会把自己噎到。",
+    "先从哪里开始吃好呢？\n这边看起来最香。",
+    "吃饱就有力气啦。\n谢谢你的食物。",
+};
+
+static const char *const LOW_PLAY_LINES[] = {
+    "来比赛吧！\n我可不会故意让你。",
+    "我先跑。\n你数到三再来追。",
+    "这次我要走最高那条路。\n你敢跟上来吗？",
+    "看好了。\n这是我刚学会的动作。",
+    "刚刚那次不算！\n都怪风突然变大了。",
+    "准备好了吗？\n我要开始咯，一、二、三！",
+};
+
+static const char *const LOW_REST_LINES[] = {
+    "呼……先休息一下。\n跑太久腿都酸了。",
+    "我只坐一小会儿。\n很快就能恢复精神。",
+    "这里暖暖的。\n让人一下就想睡觉。",
+    "有动静再叫醒我。\n不过不要太大声。",
+    "五分钟后我就起来。\n应该不会睡过头吧。",
+    "先安静一会儿。\n听听风吹过来的声音。",
 };
 
 static const char *const CARE_LINES[] = {
@@ -305,12 +387,22 @@ static const dialogue_bank_t IDLE_DAWN_DIALOGUE = DIALOGUE_BANK(IDLE_DAWN_LINES)
 static const dialogue_bank_t IDLE_DAY_DIALOGUE = DIALOGUE_BANK(IDLE_DAY_LINES);
 static const dialogue_bank_t IDLE_DUSK_DIALOGUE = DIALOGUE_BANK(IDLE_DUSK_LINES);
 static const dialogue_bank_t IDLE_NIGHT_DIALOGUE = DIALOGUE_BANK(IDLE_NIGHT_LINES);
+static const dialogue_bank_t LOW_IDLE_DAWN_DIALOGUE = DIALOGUE_BANK(LOW_IDLE_DAWN_LINES);
+static const dialogue_bank_t LOW_IDLE_DAY_DIALOGUE = DIALOGUE_BANK(LOW_IDLE_DAY_LINES);
+static const dialogue_bank_t LOW_IDLE_DUSK_DIALOGUE = DIALOGUE_BANK(LOW_IDLE_DUSK_LINES);
+static const dialogue_bank_t LOW_IDLE_NIGHT_DIALOGUE = DIALOGUE_BANK(LOW_IDLE_NIGHT_LINES);
 static const dialogue_bank_t HAPPY_DIALOGUE = DIALOGUE_BANK(HAPPY_LINES);
 static const dialogue_bank_t SAD_DIALOGUE = DIALOGUE_BANK(SAD_LINES);
 static const dialogue_bank_t COOL_DIALOGUE = DIALOGUE_BANK(COOL_LINES);
 static const dialogue_bank_t FEED_DIALOGUE = DIALOGUE_BANK(FEED_LINES);
 static const dialogue_bank_t PLAY_DIALOGUE = DIALOGUE_BANK(PLAY_LINES);
 static const dialogue_bank_t REST_DIALOGUE = DIALOGUE_BANK(REST_LINES);
+static const dialogue_bank_t LOW_HAPPY_DIALOGUE = DIALOGUE_BANK(LOW_HAPPY_LINES);
+static const dialogue_bank_t LOW_SAD_DIALOGUE = DIALOGUE_BANK(LOW_SAD_LINES);
+static const dialogue_bank_t LOW_COOL_DIALOGUE = DIALOGUE_BANK(LOW_COOL_LINES);
+static const dialogue_bank_t LOW_FEED_DIALOGUE = DIALOGUE_BANK(LOW_FEED_LINES);
+static const dialogue_bank_t LOW_PLAY_DIALOGUE = DIALOGUE_BANK(LOW_PLAY_LINES);
+static const dialogue_bank_t LOW_REST_DIALOGUE = DIALOGUE_BANK(LOW_REST_LINES);
 static const dialogue_bank_t CARE_DIALOGUE = DIALOGUE_BANK(CARE_LINES);
 static const dialogue_bank_t AFFECTION_LOW_DIALOGUE = DIALOGUE_BANK(AFFECTION_LOW_LINES);
 static const dialogue_bank_t AFFECTION_FAMILIAR_DIALOGUE = DIALOGUE_BANK(AFFECTION_FAMILIAR_LINES);
@@ -555,16 +647,52 @@ static ui_time_period_t period_for_hour(uint8_t hour)
 
 static const dialogue_bank_t *idle_dialogue_for_period(void)
 {
+    bool low_affection =
+        pet_state_affection_stage(&s_state) == PET_AFFECTION_LOW;
     switch (period_for_hour(s_clock_hour)) {
     case UI_TIME_DAWN:
-        return &IDLE_DAWN_DIALOGUE;
+        return low_affection ? &LOW_IDLE_DAWN_DIALOGUE
+                             : &IDLE_DAWN_DIALOGUE;
     case UI_TIME_DAY:
-        return &IDLE_DAY_DIALOGUE;
+        return low_affection ? &LOW_IDLE_DAY_DIALOGUE
+                             : &IDLE_DAY_DIALOGUE;
     case UI_TIME_DUSK:
-        return &IDLE_DUSK_DIALOGUE;
+        return low_affection ? &LOW_IDLE_DUSK_DIALOGUE
+                             : &IDLE_DUSK_DIALOGUE;
     case UI_TIME_NIGHT:
     default:
-        return &IDLE_NIGHT_DIALOGUE;
+        return low_affection ? &LOW_IDLE_NIGHT_DIALOGUE
+                             : &IDLE_NIGHT_DIALOGUE;
+    }
+}
+
+static const dialogue_bank_t *mood_dialogue(pet_mood_t mood)
+{
+    bool low_affection =
+        pet_state_affection_stage(&s_state) == PET_AFFECTION_LOW;
+    switch (mood) {
+    case PET_MOOD_SAD:
+        return low_affection ? &LOW_SAD_DIALOGUE : &SAD_DIALOGUE;
+    case PET_MOOD_COOL:
+        return low_affection ? &LOW_COOL_DIALOGUE : &COOL_DIALOGUE;
+    case PET_MOOD_IDLE:
+    default:
+        return low_affection ? &LOW_HAPPY_DIALOGUE : &HAPPY_DIALOGUE;
+    }
+}
+
+static const dialogue_bank_t *action_dialogue(pet_action_t action)
+{
+    bool low_affection =
+        pet_state_affection_stage(&s_state) == PET_AFFECTION_LOW;
+    switch (action) {
+    case PET_ACTION_FEED:
+        return low_affection ? &LOW_FEED_DIALOGUE : &FEED_DIALOGUE;
+    case PET_ACTION_PLAY:
+        return low_affection ? &LOW_PLAY_DIALOGUE : &PLAY_DIALOGUE;
+    case PET_ACTION_REST:
+    default:
+        return low_affection ? &LOW_REST_DIALOGUE : &REST_DIALOGUE;
     }
 }
 
@@ -647,27 +775,24 @@ static void settle_pet(void)
     uint32_t ambient_roll = esp_random() % 100;
     if (mood == PET_MOOD_SAD) {
         set_animation(PET_ASSET_SAD);
-        say_random(&SAD_DIALOGUE);
+        say_random(mood_dialogue(PET_MOOD_SAD));
     } else if (mood == PET_MOOD_COOL && roll < 15) {
         set_animation(PET_ASSET_COOL);
-        say_random(&COOL_DIALOGUE);
+        say_random(mood_dialogue(PET_MOOD_COOL));
     } else if (affection_stage == PET_AFFECTION_HIGH &&
                ambient_roll < 12) {
-        set_animation(PET_ASSET_IDLE);
-        say_random(&CARE_DIALOGUE);
-    } else if (affection_stage == PET_AFFECTION_FAMILIAR &&
-               ambient_roll < 5) {
         set_animation(PET_ASSET_IDLE);
         say_random(&CARE_DIALOGUE);
     } else if (ambient_roll < 18) {
         set_animation(PET_ASSET_IDLE);
         say_random(affection_dialogue());
-    } else if (ambient_roll < 30) {
+    } else if (affection_stage != PET_AFFECTION_LOW &&
+               ambient_roll < 30) {
         set_animation(PET_ASSET_IDLE);
         say_random_thought();
     } else if (s_state.mood >= 80 && roll < 65) {
         set_animation(PET_ASSET_HAPPY);
-        say_random(&HAPPY_DIALOGUE);
+        say_random(mood_dialogue(PET_MOOD_IDLE));
     } else {
         set_animation(PET_ASSET_IDLE);
         say_random(idle_dialogue_for_period());
@@ -775,18 +900,18 @@ static void start_action(void)
     switch (s_running_action) {
     case PET_ACTION_FEED:
         set_animation(PET_ASSET_SURPRISED);
-        say_random(&FEED_DIALOGUE);
+        say_random(action_dialogue(PET_ACTION_FEED));
         period = 1600;
         break;
     case PET_ACTION_PLAY:
         set_animation(PET_ASSET_PLAY);
-        say_random(&PLAY_DIALOGUE);
+        say_random(action_dialogue(PET_ACTION_PLAY));
         period = 3200;
         break;
     case PET_ACTION_REST:
     default:
         set_animation(PET_ASSET_REST);
-        say_random(&REST_DIALOGUE);
+        say_random(action_dialogue(PET_ACTION_REST));
         period = 4800;
         break;
     }
@@ -801,7 +926,7 @@ static void start_action(void)
         static const char *const EVENT_LINES[PET_EVENT_COUNT] = {
             "哇，地上有个补给箱！\n里面居然全是好吃的。",
             "呀，怎么突然下雨啦！\n快找个地方躲一躲。",
-            "我发现一条没人知道的小路！\n嘘，这是我们的秘密。",
+            "我发现一条没走过的小路！\n不知道会通到哪里。",
             "太阳出来啦！\n整座城市一下变亮了。",
         };
         if (event_stage_changed) show_affection_stage_message();
