@@ -42,7 +42,7 @@ void pet_state_move(pet_state_t *state, int direction)
     state->selected = (pet_action_t)selected;
 }
 
-pet_action_result_t pet_state_apply(pet_state_t *state)
+pet_action_result_t pet_state_apply(pet_state_t *state, bool grant_reward)
 {
     static const int deltas[PET_ACTION_COUNT][3] = {
         [PET_ACTION_FEED] = { 14, 3, 18 },
@@ -53,6 +53,8 @@ pet_action_result_t pet_state_apply(pet_state_t *state)
     pet_action_result_t result = { 0 };
     const int *delta = deltas[state->selected];
     result.repeated_action = state->last_action == state->selected;
+    result.reward_granted = grant_reward;
+    if (!grant_reward) return result;
 
     int divisor = result.repeated_action ? 2 : 1;
     state->energy = clamp_add(state->energy, delta[0] / divisor);

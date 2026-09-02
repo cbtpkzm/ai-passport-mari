@@ -43,11 +43,12 @@ typedef struct {
     uint8_t affection_gained;
     bool affection_stage_changed;
     bool repeated_action;
+    bool reward_granted;
 } pet_action_result_t;
 
 void pet_state_init(pet_state_t *state);
 void pet_state_move(pet_state_t *state, int direction);
-pet_action_result_t pet_state_apply(pet_state_t *state);
+pet_action_result_t pet_state_apply(pet_state_t *state, bool grant_reward);
 bool pet_state_apply_event(pet_state_t *state, pet_event_t event);
 void pet_state_decay(pet_state_t *state);
 pet_mood_t pet_state_mood(const pet_state_t *state);

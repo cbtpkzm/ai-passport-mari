@@ -1,10 +1,12 @@
 #include "pet_app.h"
 
 #include "bsp_battery.h"
+#include "esp_app_desc.h"
 #include "esp_heap_caps.h"
 #include "esp_log.h"
 #include "esp_random.h"
 #include "esp_system.h"
+#include "esp_timer.h"
 #include "lvgl.h"
 #include "miniz.h"
 #include "nvs.h"
@@ -62,6 +64,7 @@ static const embedded_asset_t ASSET_DATA[PET_ASSET_COUNT] = {
 #define PET_FRAME_HEIGHT 128
 #define PET_FRAME_BYTES (PET_FRAME_WIDTH * PET_FRAME_HEIGHT * 2)
 #define PET_ASSET_HEADER_BYTES 12
+#define PET_ACTION_REWARD_COOLDOWN_US (10LL * 60 * 1000000)
 
 static const char *ACTION_NAMES[PET_ACTION_COUNT] = { "吃饭", "玩耍", "休息" };
 
@@ -437,6 +440,7 @@ static uint8_t s_actions_since_save;
 static uint8_t s_clock_hour;
 static uint8_t s_clock_minute;
 static int s_current_period = -1;
+static int64_t s_reward_ready_at[PET_ACTION_COUNT];
 
 #define PET_SAVE_MAGIC 0x50455432u
 #define PET_SAVE_MAGIC_LEGACY 0x50455431u
@@ -743,10 +747,11 @@ static void apply_time_theme(bool force)
 
 static void clock_init_from_build(void)
 {
-    /* Offline fallback: the build host supplies the initial local time. */
-    const char *build_time = __TIME__;
+    const char *build_time = esp_app_get_description()->time;
     s_clock_hour = (uint8_t)((build_time[0] - '0') * 10 + (build_time[1] - '0'));
     s_clock_minute = (uint8_t)((build_time[3] - '0') * 10 + (build_time[4] - '0'));
+    ESP_LOGI(TAG, "clock initialized from build time %02u:%02u",
+             s_clock_hour, s_clock_minute);
 }
 
 static void clock_advance_minute(void)
@@ -894,7 +899,13 @@ static void start_action(void)
     s_running_action = s_state.selected;
     s_action_stage = 0;
     s_action_running = true;
-    pet_action_result_t result = pet_state_apply(&s_state);
+    int64_t now = esp_timer_get_time();
+    bool grant_reward = now >= s_reward_ready_at[s_running_action];
+    pet_action_result_t result = pet_state_apply(&s_state, grant_reward);
+    if (result.reward_granted) {
+        s_reward_ready_at[s_running_action] =
+            now + PET_ACTION_REWARD_COOLDOWN_US;
+    }
 
     uint32_t period;
     switch (s_running_action) {
@@ -919,7 +930,7 @@ static void start_action(void)
     bool important = result.affection_stage_changed;
     if (result.affection_stage_changed) {
         show_affection_stage_message();
-    } else if (esp_random() % 100 < 20) {
+    } else if (result.reward_granted && esp_random() % 100 < 20) {
         pet_event_t event = (pet_event_t)(esp_random() % PET_EVENT_COUNT);
         bool event_stage_changed = pet_state_apply_event(&s_state, event);
         important = important || event_stage_changed;
@@ -933,8 +944,10 @@ static void start_action(void)
         else lv_label_set_text(s_dialogue, EVENT_LINES[event]);
     }
 
-    s_actions_since_save++;
-    if (important || s_actions_since_save >= 5) save_state();
+    if (result.reward_granted) {
+        s_actions_since_save++;
+        if (important || s_actions_since_save >= 5) save_state();
+    }
     refresh_ui();
     lv_timer_set_period(s_action_timer, period);
     lv_timer_reset(s_action_timer);

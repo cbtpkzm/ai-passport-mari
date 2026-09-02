@@ -6,7 +6,7 @@ idf_component_register(
          "ui_pixel.c"
          "ui_pixel_math.c"
     INCLUDE_DIRS "."
-    REQUIRES bsp esp_hw_support esp_rom nvs_flash
+    REQUIRES bsp esp_app_format esp_hw_support esp_rom esp_timer nvs_flash
     EMBED_FILES
         "assets/compressed/idle.zframes"
         "assets/compressed/happy.zframes"
