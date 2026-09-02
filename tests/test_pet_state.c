@@ -3,6 +3,18 @@
 
 int main(void)
 {
+    pet_reward_limiter_t limiter = { 0 };
+    assert(pet_reward_try_consume(&limiter, PET_ACTION_FEED, 1000));
+    assert(pet_reward_try_consume(&limiter, PET_ACTION_FEED, 2000));
+    assert(pet_reward_try_consume(&limiter, PET_ACTION_FEED, 3000));
+    assert(!pet_reward_try_consume(&limiter, PET_ACTION_FEED, 4000));
+    assert(pet_reward_try_consume(
+        &limiter, PET_ACTION_PLAY, 4000));
+    assert(pet_reward_try_consume(
+        &limiter, PET_ACTION_FEED, 1000 + PET_REWARD_WINDOW_MS));
+    assert(!pet_reward_try_consume(
+        &limiter, PET_ACTION_COUNT, PET_REWARD_WINDOW_MS));
+
     pet_state_t state;
     pet_state_init(&state);
     assert(state.energy == 72 && state.mood == 84 && state.hunger == 61);

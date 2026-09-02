@@ -64,7 +64,6 @@ static const embedded_asset_t ASSET_DATA[PET_ASSET_COUNT] = {
 #define PET_FRAME_HEIGHT 128
 #define PET_FRAME_BYTES (PET_FRAME_WIDTH * PET_FRAME_HEIGHT * 2)
 #define PET_ASSET_HEADER_BYTES 12
-#define PET_ACTION_REWARD_COOLDOWN_US (10LL * 60 * 1000000)
 
 static const char *ACTION_NAMES[PET_ACTION_COUNT] = { "吃饭", "玩耍", "休息" };
 
@@ -440,7 +439,7 @@ static uint8_t s_actions_since_save;
 static uint8_t s_clock_hour;
 static uint8_t s_clock_minute;
 static int s_current_period = -1;
-static int64_t s_reward_ready_at[PET_ACTION_COUNT];
+static pet_reward_limiter_t s_reward_limiter;
 
 #define PET_SAVE_MAGIC 0x50455432u
 #define PET_SAVE_MAGIC_LEGACY 0x50455431u
@@ -899,13 +898,10 @@ static void start_action(void)
     s_running_action = s_state.selected;
     s_action_stage = 0;
     s_action_running = true;
-    int64_t now = esp_timer_get_time();
-    bool grant_reward = now >= s_reward_ready_at[s_running_action];
+    uint64_t now_ms = (uint64_t)(esp_timer_get_time() / 1000);
+    bool grant_reward = pet_reward_try_consume(
+        &s_reward_limiter, s_running_action, now_ms);
     pet_action_result_t result = pet_state_apply(&s_state, grant_reward);
-    if (result.reward_granted) {
-        s_reward_ready_at[s_running_action] =
-            now + PET_ACTION_REWARD_COOLDOWN_US;
-    }
 
     uint32_t period;
     switch (s_running_action) {

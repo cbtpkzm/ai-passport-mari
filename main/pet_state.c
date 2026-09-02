@@ -42,6 +42,27 @@ void pet_state_move(pet_state_t *state, int direction)
     state->selected = (pet_action_t)selected;
 }
 
+bool pet_reward_try_consume(pet_reward_limiter_t *limiter,
+                            pet_action_t action, uint64_t now_ms)
+{
+    if (action >= PET_ACTION_COUNT) return false;
+
+    uint8_t used = limiter->used_slots[action];
+    for (uint8_t i = 0; i < used; ++i) {
+        uint64_t rewarded_at = limiter->rewarded_at_ms[action][i];
+        if (now_ms >= rewarded_at &&
+            now_ms - rewarded_at >= PET_REWARD_WINDOW_MS) {
+            limiter->rewarded_at_ms[action][i] = now_ms;
+            return true;
+        }
+    }
+    if (used >= PET_REWARD_LIMIT) return false;
+
+    limiter->rewarded_at_ms[action][used] = now_ms;
+    limiter->used_slots[action] = used + 1;
+    return true;
+}
+
 pet_action_result_t pet_state_apply(pet_state_t *state, bool grant_reward)
 {
     static const int deltas[PET_ACTION_COUNT][3] = {

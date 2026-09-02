@@ -18,7 +18,7 @@ themes, and three-button interaction.
 - Low, familiar, and high affection dialogue stages
 - Persistent affection state with a five-heart pixel display
 - Feed, play, and rest interactions
-- Independent 10-minute reward cooldowns for each interaction
+- Up to three rewarded uses per interaction in any rolling 10-minute window
 - Handwritten Chinese dialogue, reflective lines, and caring responses
 - NVS persistence across power cycles
 

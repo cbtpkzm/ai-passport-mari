@@ -30,6 +30,14 @@ typedef enum {
     PET_EVENT_COUNT,
 } pet_event_t;
 
+#define PET_REWARD_LIMIT 3
+#define PET_REWARD_WINDOW_MS (10ULL * 60 * 1000)
+
+typedef struct {
+    uint64_t rewarded_at_ms[PET_ACTION_COUNT][PET_REWARD_LIMIT];
+    uint8_t used_slots[PET_ACTION_COUNT];
+} pet_reward_limiter_t;
+
 typedef struct {
     uint8_t energy;
     uint8_t mood;
@@ -48,6 +56,8 @@ typedef struct {
 
 void pet_state_init(pet_state_t *state);
 void pet_state_move(pet_state_t *state, int direction);
+bool pet_reward_try_consume(pet_reward_limiter_t *limiter,
+                            pet_action_t action, uint64_t now_ms);
 pet_action_result_t pet_state_apply(pet_state_t *state, bool grant_reward);
 bool pet_state_apply_event(pet_state_t *state, pet_event_t event);
 void pet_state_decay(pet_state_t *state);
